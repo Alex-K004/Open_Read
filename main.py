@@ -1,3 +1,4 @@
+#1
 cook_book = {}
 
 with open('recipe book.txt', 'rt', encoding='utf-8') as file:
@@ -10,9 +11,24 @@ with open('recipe book.txt', 'rt', encoding='utf-8') as file:
 			emp = file.readline()
 			ingredient_name, quantity, measure  = emp.strip().split(' | ')
 			dictik.append({'ingredient_name': ingredient_name,
-                                     'quantity': quantity,
+                                     'quantity': int(quantity),
                                      'measure': measure})
 			dep = {department_name: dictik}
 		blank_line = file.readline()
 		cook_book.update(dep)
-print(f'cook_book = {cook_book}')
+#print(f'cook_book = {cook_book}')
+
+#2
+def get_shop_list_by_dishes(dishes: list, person_count: int):
+    result = {}
+    for dish in dishes:
+        if dish in cook_book:
+            for consist in cook_book[dish]:
+                if consist['ingredient_name'] in result:
+                   result[consist['ingredient_name']]['quantity'] += consist['quantity'] * person_count
+                else:
+                    result[consist['ingredient_name']] = {'measure': consist['measure'],'quantity': (consist['quantity']) * int(person_count)}
+        else:
+            print('Такого блюда нет в книге')
+    print(result)
+get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2)
